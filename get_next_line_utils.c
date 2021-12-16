@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   get_next_line_utils.c                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: rbrune <rbrune@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/12/14 11:34:36 by rbrune        #+#    #+#                 */
+/*   Updated: 2021/12/15 12:11:55 by rbrune        ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-char	*return_check(char *nxtLine)
+char	*return_check(char *next_line)
 {
-	if (nxtLine && nxtLine[0])
-		return (nxtLine);
+	if (next_line && next_line[0])
+		return (next_line);
 	else
 	{
-		free(nxtLine);
+		free(next_line);
 		return (NULL);
 	}
 }
@@ -15,13 +27,15 @@ void	after_newline(char *str)
 {
 	int		j;
 	int		k;
+	int		s_len;
 
 	j = 0;
 	k = 0;
-	while (str[j] != '\n' && j < ft_strlen(str))
+	s_len = ft_strlen(str);
+	while (str[j] != '\n' && j < s_len)
 		j++;
 	j++;
-	while (k < ft_strlen(str) - j)
+	while (k < s_len - j)
 	{
 		str[k] = str[k + j];
 		k++;
@@ -29,25 +43,25 @@ void	after_newline(char *str)
 	str[k] = '\0';
 }
 
-char	*ft_strjoin(char *s1, char *s2, int readRet)
+char	*ft_strjoin(char *s1, char *s2, int read_size)
 {
 	char	*ret;
 	int		j;
 	int		k;
-	int		sLen;
+	int		s_len;
 
 	j = 0;
 	k = 0;
-	sLen = ft_strlen(s1);
-	ret = malloc(sLen + readRet + 1);
+	s_len = ft_strlen(s1);
+	ret = malloc(s_len + read_size + 1);
 	if (!ret)
 		return (return_check(s1));
-	while (j < sLen)
+	while (j < s_len)
 	{
 		ret[j] = s1[j];
 		j++;
 	}
-	while (k < readRet && s2[k])
+	while (k < read_size && s2[k])
 	{
 		ret[j] = s2[k];
 		j++;
@@ -72,14 +86,14 @@ char	*ft_strdup(char *s1)
 {
 	char	*s1cpy;
 	int		i;
-	int		sLen;
+	int		s_len;
 
 	i = 0;
-	sLen = ft_strlen(s1);
-	s1cpy = malloc(sLen + 1);
+	s_len = ft_strlen(s1);
+	s1cpy = malloc(s_len + 1);
 	if (!s1cpy)
 		return (0);
-	while (i < sLen)
+	while (i < s_len)
 	{
 		s1cpy[i] = s1[i];
 		i++;

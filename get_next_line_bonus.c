@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   get_next_line_bonus.c                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: rbrune <rbrune@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/12/14 11:34:32 by rbrune        #+#    #+#                 */
+/*   Updated: 2021/12/14 11:34:33 by rbrune        ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line_bonus.h"
 
 int	newline(char *buff)
 {
 	int		i;
-	int		sLen;
+	int		s_len;
 
 	i = 0;
-	sLen = ft_strlen(buff);
-	while (i < sLen)
+	s_len = ft_strlen(buff);
+	while (i < s_len)
 	{
 		if (buff[i] == '\n')
 			return (0);
@@ -16,7 +28,7 @@ int	newline(char *buff)
 	return (1);
 }
 
-char	*before_newline(char *nxtLine)
+char	*before_newline(char *nxt_line)
 {
 	char	*str;
 	int		i;
@@ -24,49 +36,49 @@ char	*before_newline(char *nxtLine)
 
 	i = 0;
 	j = 0;
-	while (nxtLine[i] != '\n' && nxtLine[i])
+	while (nxt_line[i] != '\n' && nxt_line[i])
 		i++;
 	i++;
 	str = malloc(i + 1);
 	if (!str)
 	{
-		free (nxtLine);
+		free (nxt_line);
 		return (NULL);
 	}
 	while (j < i)
 	{
-		str[j] = nxtLine[j];
+		str[j] = nxt_line[j];
 		j++;
 	}
 	str[j] = '\0';
-	free (nxtLine);
+	free (nxt_line);
 	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*nxtLine;
-	int			readSize;
+	char		*nxt_line;
+	int			read_size;
 	static char	buff[OPEN_MAX][BUFFER_SIZE + 1];
 
 	if (fd < 0 || fd > OPEN_MAX)
 		return (NULL);
-	nxtLine = ft_strdup(buff[fd]);
-	if (nxtLine == NULL)
+	nxt_line = ft_strdup(buff[fd]);
+	if (nxt_line == NULL)
 		return (NULL);
 	while (newline(buff[fd]))
 	{
-		readSize = read(fd, buff[fd], BUFFER_SIZE);
-		if (readSize == -1)
-			return (return_check(nxtLine));
-		buff[fd][readSize] = '\0';
-		nxtLine = ft_strjoin(nxtLine, buff[fd], readSize);
-		if (nxtLine == NULL)
+		read_size = read(fd, buff[fd], BUFFER_SIZE);
+		if (read_size == -1)
+			return (return_check(nxt_line));
+		buff[fd][read_size] = '\0';
+		nxt_line = ft_strjoin(nxt_line, buff[fd], read_size);
+		if (nxt_line == NULL)
 			return (NULL);
-		if (readSize != BUFFER_SIZE)
+		if (read_size != BUFFER_SIZE)
 			break ;
 	}
-	nxtLine = before_newline(nxtLine);
+	nxt_line = before_newline(nxt_line);
 	after_newline(buff[fd]);
-	return (return_check(nxtLine));
+	return (return_check(nxt_line));
 }
